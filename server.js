@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 //Register Routes
 app.use(route);
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Application running on ${PORT}`)
