@@ -1,0 +1,20 @@
+{
+  "name": "fluttertest",
+  "version": "1.0.0",
+  "description": "Simple Validation Rule",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "fields"
+  ],
+  "author": "Taiwo Adejare",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.9.2",
+    "morgan": "^1.10.0"
+  }
+}
