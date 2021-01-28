@@ -1,6 +1,6 @@
 const { successResponseMsg, errorResponseMsg } = require('./utils/response');
 const { validationRule } = require('./utils/validate');
-const { validationResult } = require('express-validator');
+const { validationResult, check } = require('express-validator');
 
 const toCheckCondition = (fieldValue, conditionValue, condition) => {
     //when condition equals "eq"
@@ -15,19 +15,19 @@ const toCheckCondition = (fieldValue, conditionValue, condition) => {
             return true;
         }
     }
-   
+    //when condition equals "gt"
     if(condition == "gt") {
         if(fieldValue > conditionValue){
             return true;
         }
     }
-    
+     //when condition equals "gte"
     if(condition == "gte") {
         if(fieldValue >= conditionValue){
             return true;
         }
     }
-   
+    //when condition equals "contains"
     if(condition == "contains") {
         if(fieldValue.includes(conditionValue)) {
             return true;
@@ -80,12 +80,13 @@ module.exports = {
             var error = true;
             var fieldValue = field.split('.');
             var value = data[fieldValue[0]];
-            // console.log(data[fieldValue[0]][fieldValue[1]]);
+            
+            // if key level is greater than 1
             if(fieldValue[1]) {
                 value = data[fieldValue[0]][fieldValue[1]];
             }
+
             //validate with rule
-            
             if(typeof value !== "undefined") {
                 const conditionCheck = toCheckCondition(value, condition_value, condition);
                 fieldValue = value;
@@ -109,6 +110,7 @@ module.exports = {
                 }
             }
 
+            // validationRule fails
             if(error == true) {
                 return errorResponseMsg(res, 400, `field ${field} failed validation.`, result)
             }
