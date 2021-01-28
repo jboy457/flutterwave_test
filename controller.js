@@ -1,41 +1,9 @@
 const { successResponseMsg, errorResponseMsg } = require('./utils/response');
-const { validationRule } = require('./utils/validate');
+const { validationRule } = require('./utils/validator/validate');
 const { validationResult, check } = require('express-validator');
+const { checkCondition } = require('./utils/validator/conditionRule');
 
-const toCheckCondition = (fieldValue, conditionValue, condition) => {
-    //when condition equals "eq"
-    if(condition == "eq") {
-        if(fieldValue == conditionValue){
-            return true;
-        }
-    }
-    //when condition equals "neq"
-    if(condition == 'neq') {
-        if(fieldValue != conditionValue){
-            return true;
-        }
-    }
-    //when condition equals "gt"
-    if(condition == "gt") {
-        if(fieldValue > conditionValue){
-            return true;
-        }
-    }
-     //when condition equals "gte"
-    if(condition == "gte") {
-        if(fieldValue >= conditionValue){
-            return true;
-        }
-    }
-    //when condition equals "contains"
-    if(condition == "contains") {
-        if(fieldValue.includes(conditionValue)) {
-            return true;
-        }
-    }
-    return false;
-   
-}
+
 
 module.exports = {
     getUser: async (req, res) => {
@@ -88,12 +56,10 @@ module.exports = {
 
             //validate with rule
             if(typeof value !== "undefined") {
-                const conditionCheck = toCheckCondition(value, condition_value, condition);
+                const conditionCheck = checkCondition(value, condition_value, condition);
                 fieldValue = value;
                 if(conditionCheck) {
                     error = false;
-                } else {
-                    error = true;
                 }
             }else {
                 return errorResponseMsg(res, 400, `field ${field} is missing from data.`, null) 
