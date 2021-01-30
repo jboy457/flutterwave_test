@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 //Register Routes
 app.use(route);
 app.use((req, res, next) => {
-    return errorResponseMsg(res, 404, "Not Found", null);
+    return errorResponseMsg(res, 404, "Not Found.", null);
 })
 const PORT = process.env.PORT || 3000;
 
